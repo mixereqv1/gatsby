@@ -1,10 +1,8 @@
 import React from 'react';
 
-import Navigation from '../components/Navigation/Navigation';
-
 const IndexPage = () => (
   <>
-    <Navigation />
+    <h1>Hello HATTA</h1>
   </>
 );
 
