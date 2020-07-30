@@ -18,7 +18,7 @@ const NavigationWrapper = styled.nav`
 `;
 
 const Logo = styled.span`
-  font-weight: 700;
+  font-weight: 900;
   font-size: 20px;
 `;
 
@@ -36,7 +36,7 @@ const NavigationListItem = styled.li`
 const Navigation = () => (
   <NavigationWrapper>
     <Logo>
-      <Link to='/'>HATTA WEB</Link>
+      <Link to='/'>HATTA</Link>
     </Logo>
     <NavigationList>
       <NavigationListItem>
