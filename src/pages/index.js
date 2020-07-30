@@ -36,7 +36,11 @@ const ImageWrapper = styled.img`
 
 const IndexPage = ({
   data: {
-    file: { publicURL },
+    file: {
+      childImageSharp: {
+        fluid: { src, srcSet, sizes },
+      },
+    },
   },
 }) => (
   <>
@@ -48,14 +52,20 @@ const IndexPage = ({
       </StyledParagraph>
       <Button>estimate project</Button>
     </ContentWrapper>
-    <ImageWrapper src={publicURL} alt='Hero' />
+    <ImageWrapper alt='Hero' src={src} srcSet={srcSet} sizes={sizes} />
   </>
 );
 
 export const query = graphql`
   {
     file(name: { eq: "hero" }) {
-      publicURL
+      childImageSharp {
+        fluid(maxWidth: 800, maxHeight: 1200, quality: 90) {
+          src
+          srcSet
+          sizes
+        }
+      }
     }
   }
 `;
