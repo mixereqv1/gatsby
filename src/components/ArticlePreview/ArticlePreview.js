@@ -17,25 +17,20 @@ const PreviewInfoLabel = styled.div`
   min-height: 40px;
   background-color: black;
   color: white;
-  padding: 5px 15px;
+  padding: 10px 15px;
+
   h2,
-  p {
+  span {
     margin: 5px;
   }
 `;
 
-const StyledImg = styled(Img)`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-const ArticlePreview = ({ title, excerpt, fluid, slug }) => (
+const ArticlePreview = ({ title, fluid, slug, createdAt }) => (
   <PreviewWrapper to={slug}>
-    <StyledImg fluid={fluid} />
+    <Img fluid={fluid} />
     <PreviewInfoLabel>
       <h2>{title}</h2>
-      <p>{excerpt}</p>
+      <span>{createdAt}</span>
     </PreviewInfoLabel>
   </PreviewWrapper>
 );

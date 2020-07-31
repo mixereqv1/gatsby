@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import PageInfo from '../components/PageInfo/PageInfo';
 import { pageData } from '../data/PageData';
 import ArticlePreview from '../components/ArticlePreview/ArticlePreview';
+import slugify from 'slugify';
 
 const ContentWrapper = styled.div`
   /* display: flex;
@@ -18,52 +19,40 @@ const ContentWrapper = styled.div`
 
 const ArticlesPage = ({
   data: {
-    allMdx: { nodes },
+    allDatoCmsArticle: { nodes },
   },
 }) => (
   <>
     <PageInfo title='articles' paragraph={pageData.paragraph} />
     <ContentWrapper>
-      {nodes.map(
-        ({
-          frontmatter: {
-            title,
-            slug,
-            featuredImage: {
-              childImageSharp: { fluid },
-            },
-          },
-          excerpt,
-        }) => (
-          <ArticlePreview
-            key={title}
-            title={title}
-            excerpt={excerpt}
-            fluid={fluid}
-            slug={slug}
-          />
-        )
-      )}
+      {nodes.map(({ title, featuredImage: { fluid }, meta: { createdAt } }) => (
+        <ArticlePreview
+          key={title}
+          title={title}
+          fluid={fluid}
+          slug={slugify(title, { lower: true })}
+          createdAt={createdAt}
+        />
+      ))}
     </ContentWrapper>
   </>
 );
 
 export const query = graphql`
   {
-    allMdx {
+    allDatoCmsArticle {
       nodes {
-        frontmatter {
-          title
-          slug
-          featuredImage {
-            childImageSharp {
-              fluid(maxWidth: 700, maxHeight: 500, quality: 80) {
-                ...GatsbyImageSharpFluid_tracedSVG
-              }
-            }
+        title
+        author
+        meta {
+          createdAt(fromNow: true)
+        }
+        featuredImage {
+          url
+          fluid(maxWidth: 390, maxHeight: 240) {
+            ...GatsbyDatoCmsFluid_tracedSVG
           }
         }
-        excerpt(pruneLength: 50)
       }
     }
   }

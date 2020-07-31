@@ -1,47 +1,73 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import Img from 'gatsby-image';
-import { MDXRenderer } from 'gatsby-plugin-mdx';
 
-export const querySingleArticle = graphql`
-  query queryArticles($slug: String!) {
-    mdx(frontmatter: { slug: { eq: $slug } }) {
-      frontmatter {
-        title
-        slug
-        author
-        featuredImage {
-          childImageSharp {
+export const query = graphql`
+  query querySingleArticle($postId: String!) {
+    datoCmsArticle(id: { eq: $postId }) {
+      title
+      author
+      meta {
+        createdAt(fromNow: true)
+      }
+      articleContent {
+        ... on DatoCmsParagraph {
+          paragraphContent
+          id
+        }
+        ... on DatoCmsHeading {
+          headingContent
+          id
+        }
+        ... on DatoCmsArticleImage {
+          imageData {
             fixed(width: 500) {
-              ...GatsbyImageSharpFixed_tracedSVG
+              ...GatsbyDatoCmsFixed_tracedSVG
             }
           }
+          id
         }
       }
-      body
+      featuredImage {
+        fixed(width: 500) {
+          ...GatsbyDatoCmsFixed_tracedSVG
+        }
+      }
+      id
     }
   }
 `;
 
 const PostLayout = ({
   data: {
-    mdx: {
-      body,
-      frontmatter: {
-        author,
-        title,
-        featuredImage: {
-          childImageSharp: { fixed },
-        },
-      },
+    datoCmsArticle: {
+      author,
+      title,
+      articleContent,
+      meta: { createdAt },
+      featuredImage: { fixed },
     },
   },
 }) => (
   <div>
     <h1>{title}</h1>
     <p>{author}</p>
+    <p>Created {createdAt}</p>
     <Img fixed={fixed} />
-    <MDXRenderer>{body}</MDXRenderer>
+    {articleContent.map((item) => {
+      const itemKey = Object.keys(item)[1];
+
+      switch (itemKey) {
+        case 'paragraphContent':
+          return <p key={item.id}>{item[itemKey]}</p>;
+        case 'headingContent':
+          return <h2 key={item.id}>{item[itemKey]}</h2>;
+        case 'imageData':
+          return <Img key={item.id} fixed={item[itemKey].fixed} />;
+        default:
+          return null;
+      }
+    })}
   </div>
 );
 
