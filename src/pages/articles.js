@@ -13,6 +13,7 @@ const ContentWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 50px;
+  margin-bottom: 50px;
 `;
 
 const ArticlesPage = ({
@@ -23,9 +24,19 @@ const ArticlesPage = ({
   <>
     <PageInfo title='articles' paragraph={pageData.paragraph} />
     <ContentWrapper>
-      {nodes.map(({ frontmatter: { title }, excerpt }) => (
-        <ArticlePreview title={title} excerpt={excerpt} />
-      ))}
+      {nodes.map(
+        ({
+          frontmatter: {
+            title,
+            featuredImage: {
+              childImageSharp: { fluid },
+            },
+          },
+          excerpt,
+        }) => (
+          <ArticlePreview title={title} excerpt={excerpt} fluid={fluid} />
+        )
+      )}
     </ContentWrapper>
   </>
 );
@@ -36,8 +47,13 @@ export const query = graphql`
       nodes {
         frontmatter {
           title
-          slug
-          author
+          featuredImage {
+            childImageSharp {
+              fluid(maxWidth: 700, maxHeight: 500) {
+                ...GatsbyImageSharpFluid_tracedSVG
+              }
+            }
+          }
         }
         excerpt(pruneLength: 50)
       }

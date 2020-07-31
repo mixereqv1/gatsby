@@ -1,13 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import Img from 'gatsby-image';
 
 const PreviewWrapper = styled.div`
   position: relative;
   width: 100%;
-  height: 340px;
-  background-color: hsl(0, 0%, 95%);
-  background-image: url('https://unsplash.it/701/410');
-  background-size: cover;
 `;
 
 const PreviewInfoLabel = styled.div`
@@ -25,8 +22,9 @@ const PreviewInfoLabel = styled.div`
   }
 `;
 
-const ArticlePreview = ({ title, excerpt }) => (
+const ArticlePreview = ({ title, excerpt, fluid }) => (
   <PreviewWrapper>
+    <Img fluid={fluid} />
     <PreviewInfoLabel>
       <h2>{title}</h2>
       <p>{excerpt}</p>
