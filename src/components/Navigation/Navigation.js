@@ -40,10 +40,10 @@ const Navigation = () => (
     </Logo>
     <NavigationList>
       <NavigationListItem>
-        <Link to='/articles'>articles</Link>
+        <Link to='/about'>about</Link>
       </NavigationListItem>
       <NavigationListItem>
-        <Link to='/about'>about</Link>
+        <Link to='/articles'>articles</Link>
       </NavigationListItem>
       <NavigationListItem>
         <Link to='/gallery'>gallery</Link>
