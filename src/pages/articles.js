@@ -7,10 +7,6 @@ import ArticlePreview from '../components/ArticlePreview/ArticlePreview';
 import slugify from 'slugify';
 
 const ContentWrapper = styled.div`
-  /* display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 50px; */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 50px;

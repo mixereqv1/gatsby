@@ -38,26 +38,9 @@ const GalleryPage = ({
           ))}
         </>
       ))}
-      {/* {nodes.map(({ childImageSharp: { fluid } }) => (
-        <StyledImg key={fluid.base64} fluid={fluid} />
-      ))} */}
     </ContentWrapper>
   </>
 );
-
-// export const query = graphql`
-//   {
-//     allFile(filter: { absolutePath: { regex: "/gallery/" } }) {
-//       nodes {
-//         childImageSharp {
-//           fluid(maxWidth: 408, maxHeight: 252, quality: 100) {
-//             ...GatsbyImageSharpFluid
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;
 
 export const query = graphql`
   query queryGallery {
