@@ -14,16 +14,9 @@ exports.createPages = async ({ graphql, actions }) => {
       }
     }
   `);
-  // , { limit: 1000 }).then(result => {
-  // if (result.errors) {
-  //   throw result.errors
-  // }
 
-  // Create blog post pages.
   result.data.allDatoCmsArticle.nodes.forEach((post) => {
     const slug = slugify(post.title, { lower: true });
-
-    console.log(post.id);
 
     createPage({
       path: `articles/${slug}`,

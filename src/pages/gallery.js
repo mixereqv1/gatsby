@@ -17,28 +17,60 @@ const StyledImg = styled(Img)`
   margin: 11px;
 `;
 
+const StyledParagraph = styled.p`
+  width: 100%;
+  text-align: center;
+`;
+
 const GalleryPage = ({
   data: {
-    allFile: { nodes },
+    allDatoCmsGallery: { nodes },
   },
 }) => (
   <>
     <PageInfo title='gallery' paragraph={pageData.paragraph} />
     <ContentWrapper>
-      {nodes.map(({ childImageSharp: { fluid } }) => (
-        <StyledImg key={fluid.base64} fluid={fluid} />
+      {nodes.map(({ image, meta: { createdAt } }) => (
+        <>
+          <StyledParagraph>{createdAt}</StyledParagraph>
+          {image.map(({ uploadId: { fluid } }) => (
+            <StyledImg fluid={fluid} />
+          ))}
+        </>
       ))}
+      {/* {nodes.map(({ childImageSharp: { fluid } }) => (
+        <StyledImg key={fluid.base64} fluid={fluid} />
+      ))} */}
     </ContentWrapper>
   </>
 );
 
+// export const query = graphql`
+//   {
+//     allFile(filter: { absolutePath: { regex: "/gallery/" } }) {
+//       nodes {
+//         childImageSharp {
+//           fluid(maxWidth: 408, maxHeight: 252, quality: 100) {
+//             ...GatsbyImageSharpFluid
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
+
 export const query = graphql`
-  {
-    allFile(filter: { absolutePath: { regex: "/gallery/" } }) {
+  query queryGallery {
+    allDatoCmsGallery {
       nodes {
-        childImageSharp {
-          fluid(maxWidth: 408, maxHeight: 252, quality: 100) {
-            ...GatsbyImageSharpFluid
+        meta {
+          createdAt(formatString: "DD.MM.YYYY")
+        }
+        image {
+          uploadId {
+            fluid(maxWidth: 408, maxHeight: 252) {
+              ...GatsbyDatoCmsFluid_tracedSVG
+            }
           }
         }
       }

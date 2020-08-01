@@ -45,7 +45,7 @@ export const query = graphql`
         title
         author
         meta {
-          createdAt(fromNow: true)
+          createdAt(formatString: "DD.MM.YYYY")
         }
         featuredImage {
           url
