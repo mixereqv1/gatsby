@@ -33,7 +33,7 @@ const GalleryPage = ({
       {nodes.map(({ image, meta: { createdAt } }) => (
         <>
           <StyledParagraph>{createdAt}</StyledParagraph>
-          {image.map(({ uploadId: { fluid } }) => (
+          {image.map(({ fluid }) => (
             <StyledImg fluid={fluid} />
           ))}
         </>
@@ -50,10 +50,8 @@ export const query = graphql`
           createdAt(formatString: "DD.MM.YYYY")
         }
         image {
-          uploadId {
-            fluid(maxWidth: 408, maxHeight: 252) {
-              ...GatsbyDatoCmsFluid_tracedSVG
-            }
+          fluid(maxWidth: 408, maxHeight: 252) {
+            ...GatsbyDatoCmsFluid_tracedSVG
           }
         }
       }
